@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tony Ndungu Munene</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="default"] {
+  --bg: #363642;
+  --bg2: #3e3e4e;
+  --bg3: #48485a;
+  --text: #f2efe8;
+  --text2: #c8c3b8;
+  --text3: #8a867e;
+  --accent: #d4944a;
+  --accent2: rgba(212,148,74,0.12);
+  --accent-glow: rgba(212,148,74,0.25);
+  --border: rgba(255,255,255,0.07);
+}
+[data-theme="light"] {
+  --bg: #edebe5;
+  --bg2: #e2dfd8;
+  --bg3: #d6d3ca;
+  --text: #1a1a1f;
+  --text2: #4a4a50;
+  --text3: #8a8a90;
+  --accent: #b37530;
+  --accent2: rgba(179,117,48,0.1);
+  --accent-glow: rgba(179,117,48,0.2);
+  --border: rgba(0,0,0,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text2);
+  font-family:'Syne',sans-serif;font-size:1rem;line-height:1.75;
+  overflow-x:hidden;transition:background 0.5s,color 0.5s;
+  cursor:none;
+}
+@media(max-width:768px){body{cursor:auto}}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:var(--accent);text-decoration:none;transition:opacity 0.2s}
+a:hover{opacity:0.75}
+
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom cursor */
+.cursor{
+  position:fixed;width:18px;height:18px;
+  border:1.5px solid var(--accent);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,border-color 0.2s;
+  mix-blend-mode:difference;
+}
+.cursor.hover{width:45px;height:45px;border-color:var(--text)}
+@media(max-width:768px){.cursor{display:none}}
+
+/* Scroll progress */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;
+  background:var(--accent);z-index:101;
+  width:0%;transition:none;
+}
+
+/* Particles */
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;border-radius:50%;background:var(--accent);
+  animation:drift linear infinite;
+}
+@keyframes drift{
+  0%{transform:translateY(105vh) scale(0.5);opacity:0}
+  10%{opacity:1}90%{opacity:1}
+  100%{transform:translateY(-5vh) scale(0.3);opacity:0}
+}
+
+/* Binary strips */
+.binary{
+  font-family:'DM Mono',monospace;font-size:0.5rem;color:var(--accent);
+  opacity:0.15;letter-spacing:0.25em;line-height:1.6;
+  overflow:hidden;white-space:nowrap;user-select:none;
+  padding:0.6rem 0;
+  animation:scrollBin 30s linear infinite;
+}
+@keyframes scrollBin{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+.page{max-width:760px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+
+/* Topbar */
+.topbar{
+  position:fixed;top:0;width:100%;z-index:100;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:0.8rem 0;
+}
+.topbar .page{display:flex;justify-content:space-between;align-items:center}
+.topbar .logo{font-weight:800;font-size:1.1rem;color:var(--accent);letter-spacing:-0.02em}
+.topbar .right{display:flex;align-items:center;gap:1.5rem}
+.topbar .nav-links{display:flex;gap:1.5rem}
+.topbar .nav-links a{
+  font-size:0.72rem;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.1em;
+  transition:color 0.3s,transform 0.2s;
+}
+.topbar .nav-links a:hover{color:var(--accent);opacity:1;transform:translateY(-1px)}
+.contrast-btn{
+  width:28px;height:28px;border:1px solid var(--border);
+  background:none;color:var(--text3);font-size:0.75rem;
+  cursor:none;display:flex;align-items:center;justify-content:center;
+  transition:all 0.3s;
+}
+.contrast-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Hero */
+.hero{padding:12rem 0 4rem}
+.hero-tag{
+  font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--accent);
+  letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;
+  opacity:0;animation:fi 0.6s 0.1s forwards;
+}
+.hero h1{
+  font-size:clamp(3rem,7vw,5.5rem);font-weight:800;color:var(--text);
+  line-height:1.0;letter-spacing:-0.04em;margin-bottom:3rem;
+  opacity:0;animation:fi 0.6s 0.25s forwards;
+}
+.hero h1 .thin{font-weight:400;color:var(--text2)}
+
+.hero-bio{font-size:1rem;color:var(--text2);max-width:600px;opacity:0;animation:fi 0.6s 0.4s forwards}
+.hero-bio p{margin-bottom:1rem}
+.hero-bio strong{color:var(--text);font-weight:700}
+.hero-bio .tag{
+  font-family:'DM Mono',monospace;font-size:0.68rem;
+  background:var(--accent2);color:var(--accent);padding:0.12rem 0.4rem;
+}
+
+.hero-links{
+  display:flex;gap:0.6rem;flex-wrap:wrap;margin:2.5rem 0;
+  opacity:0;animation:fi 0.6s 0.55s forwards;
+}
+.hero-links a{
+  font-size:0.78rem;font-weight:600;padding:0.5rem 1.2rem;
+  border:1px solid var(--border);color:var(--text2);
+  position:relative;overflow:hidden;
+  transition:color 0.35s,border-color 0.35s;cursor:none;
+}
+.hero-links a::before{
+  content:'';position:absolute;inset:0;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);z-index:-1;
+}
+.hero-links a:hover{color:var(--bg);border-color:var(--accent);opacity:1}
+.hero-links a:hover::before{transform:scaleX(1)}
+
+/* Animated counter stats */
+.stats{
+  display:flex;gap:3rem;flex-wrap:wrap;padding:1rem 0;
+  opacity:0;animation:fi 0.6s 0.7s forwards;
+}
+.stat-n{font-size:2.5rem;font-weight:800;color:var(--accent);line-height:1}
+.stat-l{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text3);margin-top:0.2rem;letter-spacing:0.05em}
+
+/* Graph */
+.graph-band{background:var(--bg2);margin:0 -2rem;padding:2.5rem 2rem}
+.graph-band h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.2rem}
+.graph-band .gs{font-size:0.8rem;color:var(--text3);margin-bottom:1rem}
+.gl{font-family:'DM Mono',monospace;font-size:9px;fill:var(--text3)}
+.ge{font-family:'Syne',sans-serif;font-size:9px;fill:var(--text2);font-weight:600}
+.ge-p{font-family:'Syne',sans-serif;font-size:10px;fill:var(--accent);font-weight:800}
+.gd{cursor:none;transition:all 0.25s}
+.gd:hover{filter:drop-shadow(0 0 8px var(--accent))}
+
+/* Separator */
+.sep{height:1px;background:var(--border);margin:3.5rem 0}
+
+/* Section */
+.sec-h{
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--text);
+  letter-spacing:-0.03em;margin-bottom:0.4rem;
+}
+.sec-sub{
+  font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);
+  letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;
+}
+
+/* Experience */
+.exp{
+  margin-bottom:2rem;padding-left:1.5rem;
+  border-left:1px solid var(--border);transition:border-color 0.3s;
+}
+.exp:hover{border-left-color:var(--accent)}
+.exp-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.5rem}
+.exp-role{font-weight:800;font-size:1.05rem;color:var(--text)}
+.exp-when{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text3)}
+.exp-org{color:var(--accent);font-weight:700;font-size:0.88rem;margin:0.1rem 0 0.5rem}
+.exp-body{font-size:0.88rem;color:var(--text2);line-height:1.85}
+.d{color:var(--text3);margin:0 0.35rem}
+
+/* Publications */
+.pub{
+  padding:1.1rem 0 1.1rem 1.5rem;border-left:1px solid transparent;
+  border-bottom:1px solid var(--border);transition:all 0.3s;
+}
+.pub:first-child{border-top:1px solid var(--border)}
+.pub:hover{border-left-color:var(--accent);padding-left:2.2rem}
+.pub-badge{
+  display:inline-block;font-family:'DM Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.12rem 0.5rem;margin-bottom:0.3rem;
+  background:var(--accent2);color:var(--accent);
+}
+.pub-name{font-weight:700;font-size:0.92rem;color:var(--text);line-height:1.4}
+.pub-venue{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text3);margin-top:0.1rem}
+
+/* Presentations — Wodniack-style rows */
+.pres-item{
+  display:flex;align-items:center;gap:1.5rem;
+  padding:1.8rem 0;border-bottom:1px solid var(--border);
+  transition:all 0.35s;cursor:none;
+}
+.pres-item:first-child{border-top:1px solid var(--border)}
+.pres-item:hover{padding-left:1rem;background:var(--accent2)}
+.pres-flag{font-size:3rem;flex-shrink:0;transition:transform 0.3s}
+.pres-item:hover .pres-flag{transform:scale(1.15) rotate(-5deg)}
+.pres-info{flex:1}
+.pres-city{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase}
+.pres-name{font-weight:800;font-size:1.3rem;color:var(--text);line-height:1.2;margin-top:0.15rem}
+.pres-desc{font-size:0.82rem;color:var(--text3);margin-top:0.3rem}
+
+/* Competitions — single statement block */
+.comp-block{
+  padding:2rem;border:1px solid var(--border);background:var(--bg2);
+  position:relative;overflow:hidden;transition:all 0.35s;
+}
+.comp-block:hover{border-color:var(--accent)}
+.comp-block::before{
+  content:'🥇🥈🥉';position:absolute;top:-10px;right:20px;
+  font-size:3rem;opacity:0.08;pointer-events:none;
+}
+.comp-block h3{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:0.5rem}
+.comp-block p{font-size:0.9rem;color:var(--text2);line-height:1.8}
+
+/* Education — tilt cards */
+.edu-scroll{
+  display:flex;gap:1rem;overflow-x:auto;
+  scroll-snap-type:x mandatory;scrollbar-width:none;padding:0.5rem 0 1rem;
+}
+.edu-scroll::-webkit-scrollbar{display:none}
+.edu-c{
+  min-width:260px;flex-shrink:0;scroll-snap-align:start;
+  padding:1.5rem;border:1px solid var(--border);background:var(--bg2);
+  transition:all 0.4s;position:relative;
+}
+.edu-c::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s;
+}
+.edu-c:hover{border-color:var(--accent);transform:translateY(-3px)}
+.edu-c:hover::before{transform:scaleX(1)}
+.edu-deg{font-weight:800;font-size:0.88rem;color:var(--text);line-height:1.3;margin-bottom:0.2rem}
+.edu-school{font-size:0.8rem;color:var(--accent);font-weight:600}
+.edu-year{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text3);margin-top:0.15rem}
+.edu-nav{display:flex;gap:0.4rem;margin-top:0.6rem}
+.edu-nav button{
+  width:28px;height:28px;border:1px solid var(--border);background:none;
+  color:var(--text3);font-size:0.85rem;cursor:none;
+  display:flex;align-items:center;justify-content:center;transition:all 0.2s;
+}
+.edu-nav button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Venture */
+.ven{padding-left:1.5rem;border-left:2px solid var(--accent)}
+.ven h3{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:0.1rem}
+.ven .vr{font-size:0.78rem;color:var(--accent);font-weight:700;margin-bottom:0.7rem}
+.ven p{font-size:0.88rem;color:var(--text2);max-width:530px}
+.vstack{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:1rem}
+.vstack span{
+  font-family:'DM Mono',monospace;font-size:0.58rem;
+  padding:0.15rem 0.45rem;border:1px solid var(--border);
+  color:var(--text3);transition:all 0.2s;
+}
+.vstack span:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Other */
+.other{
+  font-size:0.88rem;color:var(--text2);max-width:580px;
+  line-height:1.9;padding-left:1.5rem;border-left:1px solid var(--accent);
+}
+
+/* Easter egg */
+.ee{cursor:none;display:inline-block;transition:transform 0.3s}
+.ee:hover{transform:scale(1.5) rotate(15deg)}
+.toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  background:var(--bg3);border:1px solid var(--accent);
+  padding:0.6rem 1.1rem;font-size:0.78rem;color:var(--accent);
+  z-index:999;opacity:0;transform:translateY(10px);
+  transition:all 0.35s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Footer */
+footer{
+  margin-top:3.5rem;padding:2.5rem 0;
+  border-top:1px solid var(--border);text-align:center;
+}
+footer .fl{display:flex;justify-content:center;gap:1.5rem;margin-bottom:0.8rem}
+footer .fl a{font-size:0.8rem;font-weight:600;color:var(--text3)}
+footer .fl a:hover{color:var(--accent);opacity:1}
+footer p{font-size:0.68rem;color:var(--text3)}
+footer .mw{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text3);margin-top:0.3rem}
+
+@keyframes fi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s,transform 0.6s}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:640px){
+  .page{padding:0 1.2rem}
+  .hero{padding:8rem 0 3rem}
+  .stats{gap:1.5rem}
+  .topbar .nav-links{gap:0.8rem}
+  .topbar .nav-links a{font-size:0.65rem;letter-spacing:0.06em}
+  .graph-band{margin:0 -1.2rem;padding:2rem 1.2rem}
+  .pres-item{flex-direction:column;align-items:flex-start;gap:0.6rem}
+  .pres-flag{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scrollProg"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<div class="topbar">
+  <div class="page">
+    <div class="logo">TNM</div>
+    <div class="right">
+      <div class="nav-links">
+        <a href="#exp">Experience</a>
+        <a href="#pubs">Publications</a>
+        <a href="#comps">Competitions</a>
+        <a href="#edu">Education</a>
+      </div>
+      <button class="contrast-btn" onclick="toggleTheme()" title="Toggle contrast">◐</button>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <section class="hero">
+    <div class="hero-tag">Nairobi, Kenya → London, UK (Sept 2026)</div>
+
+    <h1>Engineer,<br>machine<br>learning<br><span class="thin">researcher<br>& builder.</span></h1>
+
+    <div class="hero-bio">
+      <p>I'm Tony. I work at the intersection of engineering and machine learning, building computational tools for infrastructure assessment, climate-smart agriculture, and spatial data science. Currently a <strong>Graduate Engineer</strong> at Advanced Engineering Consultants and co-founding <strong>Agrisense</strong>, where I lead AI development for cold chain monitoring.</p>
+      <p>In September 2026 I'll start an <strong>MSc in Environmental Data Science & Machine Learning</strong> at Imperial College London. I'm a <span class="tag">top 1%</span> ranked competitor on Zindi, with multiple Gold, Silver, and Bronze medals in competitive ML. Three peer-reviewed papers. Presented at the <strong>World Engineers Convention</strong> in Prague and the <strong>ARTISTE Conference</strong> at Politecnico di Torino. Working toward ACCA certification.</p>
+    </div>
+
+    <div class="hero-links">
+      <a href="#">→ LinkedIn</a>
+      <a href="#">→ GitHub</a>
+      <a href="#">→ Email</a>
+      <a href="#">→ Scholar</a>
+    </div>
+
+    <div class="stats">
+      <div><div class="stat-n" data-target="3" data-prefix="">0</div><div class="stat-l">publications</div></div>
+      <div><div class="stat-n">Top 1%</div><div class="stat-l">Zindi ranking</div></div>
+      <div><div class="stat-n" data-target="260" data-prefix="" data-suffix="K+">0</div><div class="stat-l">road segments</div></div>
+    </div>
+  </section>
+
+  <div class="binary" aria-hidden="true">1 0 0 1 0 1 1 &nbsp; 1 1 0 0 1 0 0 &nbsp; 1 0 1 1 0 1 1 &nbsp; 1 1 0 1 0 0 1 &nbsp; 1 0 0 1 1 1 0 &nbsp; 1 1 0 0 0 1 1 &nbsp; 1 0 1 0 1 0 0 &nbsp; 1 1 0 1 1 1 0 &nbsp; 1 0 0 1 0 1 1 &nbsp; 1 1 0 0 1 0 0 &nbsp; 1 0 1 1 0 1 1 &nbsp; 1 1 0 1 0 0 1 &nbsp; 1 0 0 1 1 1 0 &nbsp; 1 1 0 0 0 1 1 &nbsp; 1 0 1 0 1 0 0 &nbsp; 1 1 0 1 1 1 0</div>
+
+</div>
+
+<!-- Life graph -->
+<div class="graph-band reveal">
+  <div class="page">
+    <h3>Here's an illustration of the last few years of my life ·</h3>
+    <div class="gs">Hover the dots. The upward trajectory is real.</div>
+    <div style="overflow-x:auto;padding-bottom:0.5rem;">
+      <svg viewBox="0 0 780 145" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:580px;height:auto;">
+        <line x1="50" y1="108" x2="740" y2="108" stroke="var(--border)" stroke-width="1"/>
+        <text x="50" y="130" class="gl">2021</text>
+        <text x="190" y="130" class="gl">2022</text>
+        <text x="330" y="130" class="gl">2023</text>
+        <text x="470" y="130" class="gl">2024</text>
+        <text x="610" y="130" class="gl">2025</text>
+        <text x="720" y="130" class="gl">2026</text>
+
+        <path d="M60,90 C120,84 180,65 240,56 C300,47 340,38 400,30 C440,26 480,42 530,34 C570,28 610,38 660,24 C700,16 730,8 740,6" stroke="var(--accent)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+        <circle cx="60" cy="90" r="4.5" fill="var(--accent)" class="gd"><title>Started BSc Civil Engineering at UoN</title></circle>
+        <text x="60" y="80" text-anchor="middle" class="ge">BSc Eng</text>
+
+        <circle cx="240" cy="56" r="4.5" fill="var(--accent)" class="gd"><title>First publication — African Habitat Journal</title></circle>
+        <text x="240" y="46" text-anchor="middle" class="ge">1st Paper</text>
+
+        <circle cx="360" cy="33" r="4.5" fill="var(--accent)" class="gd"><title>World Engineers Convention, Prague</title></circle>
+        <text x="360" y="23" text-anchor="middle" class="ge">Prague 🇨🇿</text>
+
+        <circle cx="440" cy="28" r="4.5" fill="var(--accent)" class="gd"><title>Zindi Gold Medal — Soil Nutrient Prediction</title></circle>
+        <text x="440" y="50" text-anchor="middle" class="ge">Zindi Gold 🥇</text>
+
+        <circle cx="520" cy="35" r="4.5" fill="var(--accent)" class="gd"><title>ARTISTE Conference, Politecnico di Torino</title></circle>
+        <text x="520" y="25" text-anchor="middle" class="ge">Turin 🇮🇹</text>
+
+        <circle cx="650" cy="22" r="4.5" fill="var(--accent)" class="gd"><title>Co-founded Agrisense — 2026</title></circle>
+        <text x="650" y="12" text-anchor="middle" class="ge">Agrisense</text>
+
+        <circle cx="735" cy="6" r="6.5" fill="var(--accent)" class="gd"><title>Imperial College London MSc — the peak</title></circle>
+        <text x="735" y="140" text-anchor="middle" class="ge-p">Imperial 🎓</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="sep"></div>
+
+  <section id="exp" class="reveal">
+    <h2 class="sec-h">Experience</h2>
+    <div class="sec-sub">Where I've worked</div>
+
+    <div class="exp">
+      <div class="exp-top"><span class="exp-role">Graduate Engineer</span><span class="exp-when">Current</span></div>
+      <div class="exp-org">Advanced Engineering Consultants</div>
+      <div class="exp-body">Structural engineering practice including steel design, reinforcement detailing, and construction supervision<span class="d">·</span>Commercial and institutional projects</div>
+    </div>
+    <div class="exp">
+      <div class="exp-top"><span class="exp-role">Co-Founder & AI Lead</span><span class="exp-when">2026 – Present</span></div>
+      <div class="exp-org">Agrisense</div>
+      <div class="exp-body">Leading AI development for a climate-smart agriculture platform<span class="d">·</span>Deployed a cold chain digital twin using Q₁₀-based spoilage kinetics<span class="d">·</span>InfluxDB + Grafana stack for real-time perishable goods monitoring</div>
+    </div>
+    <div class="exp">
+      <div class="exp-top"><span class="exp-role">Doctoral Research Assistant</span><span class="exp-when">University of Nairobi</span></div>
+      <div class="exp-org">Dept. of Civil & Construction Engineering</div>
+      <div class="exp-body">Developed a computational road performance assessment framework using Kenya's RICS 2023 dataset (260,773 road segments)<span class="d">·</span>Built a six-component scoring system validated by Random Forest modelling<span class="d">·</span>Spatiotemporal crash risk modelling and IRI prediction using ML<span class="d">·</span>Three peer-reviewed papers published from this work</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="pubs" class="reveal">
+    <h2 class="sec-h">Publications</h2>
+    <div class="sec-sub">Peer-reviewed research</div>
+
+    <div class="pub">
+      <span class="pub-badge">Journal Article</span>
+      <div class="pub-name">Computational Road Performance Assessment Using Machine Learning on Kenya's RICS 2023 Dataset</div>
+      <div class="pub-venue">African Habitat Journal</div>
+    </div>
+    <div class="pub">
+      <span class="pub-badge">Journal Article</span>
+      <div class="pub-name">Spatiotemporal Crash Risk Modelling and IRI Prediction Using Machine Learning</div>
+      <div class="pub-venue">European Modern Studies Journal</div>
+    </div>
+    <div class="pub">
+      <span class="pub-badge">Conference Paper</span>
+      <div class="pub-name">Infrastructure Assessment Through Random Forest Modelling and Spatial Data Analysis</div>
+      <div class="pub-venue">ARTISTE Conference · Politecnico di Torino, Italy</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="reveal">
+    <h2 class="sec-h">Presentations</h2>
+    <div class="sec-sub">International stage</div>
+
+    <div class="pres-item">
+      <div class="pres-flag">🇨🇿</div>
+      <div class="pres-info">
+        <div class="pres-city">Prague, Czech Republic</div>
+        <div class="pres-name">World Engineers Convention</div>
+        <div class="pres-desc">Presented research on computational infrastructure assessment to an international engineering audience.</div>
+      </div>
+    </div>
+    <div class="pres-item">
+      <div class="pres-flag">🇮🇹</div>
+      <div class="pres-info">
+        <div class="pres-city">Turin, Italy</div>
+        <div class="pres-name">ARTISTE Conference · Politecnico di Torino</div>
+        <div class="pres-desc">Delivered a peer-reviewed conference paper on Random Forest modelling for spatial infrastructure data.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="binary" aria-hidden="true">1 0 1 1 0 0 1 &nbsp; 1 1 0 1 1 1 1 &nbsp; 1 1 1 0 1 0 1 &nbsp; 1 1 1 0 0 1 0 &nbsp; 1 0 1 0 1 1 1 &nbsp; 1 1 0 0 0 0 1 &nbsp; 1 1 1 1 0 0 1 &nbsp; 1 0 1 1 0 0 1 &nbsp; 1 1 0 1 1 1 1 &nbsp; 1 1 1 0 1 0 1 &nbsp; 1 1 1 0 0 1 0 &nbsp; 1 0 1 0 1 1 1 &nbsp; 1 1 0 0 0 0 1 &nbsp; 1 1 1 1 0 0 1</div>
+
+  <div class="sep"></div>
+
+  <section id="comps" class="reveal">
+    <h2 class="sec-h">Competitions</h2>
+    <div class="sec-sub">Competitive ML</div>
+
+    <div class="comp-block">
+      <h3>Multiple Gold, Silver & Bronze medals on Zindi</h3>
+      <p>Ranked in the <span class="tag">top 1%</span> on the Zindi competitive ML platform. Medals span challenges in soil nutrient prediction, atmospheric NO₂ forecasting, and spatiotemporal modelling<span class="d">·</span>Techniques include ensemble methods, Optuna hyperparameter tuning, custom feature engineering, LoRA fine-tuning, and ReAct-loop agentic pipelines.</p>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="reveal">
+    <h2 class="sec-h">Ventures</h2>
+    <div class="sec-sub">What I'm building</div>
+
+    <div class="ven">
+      <h3>Agrisense</h3>
+      <div class="vr">Co-Founder · AI Lead</div>
+      <p>Climate-smart agriculture platform with a deployed cold chain digital twin. Uses Q₁₀-based spoilage kinetics, InfluxDB time-series storage, and Grafana dashboards for real-time monitoring of perishable goods.</p>
+      <div class="vstack">
+        <span>Python</span><span>InfluxDB</span><span>Grafana</span><span>Q₁₀ Kinetics</span><span>Docker</span><span>Fedora Linux</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="edu" class="reveal">
+    <h2 class="sec-h">Education</h2>
+    <div class="sec-sub">Academic foundations</div>
+
+    <div class="edu-scroll" id="eduS">
+      <div class="edu-c">
+        <div class="edu-deg">MSc Environmental Data Science & Machine Learning</div>
+        <div class="edu-school">Imperial College London</div>
+        <div class="edu-year">Starting September 2026</div>
+      </div>
+      <div class="edu-c">
+        <div class="edu-deg">BSc Civil Engineering</div>
+        <div class="edu-school">University of Nairobi</div>
+        <div class="edu-year">Dept. of Civil & Construction Engineering</div>
+      </div>
+      <div class="edu-c">
+        <div class="edu-deg">ACCA Certification</div>
+        <div class="edu-school">Association of Chartered Certified Accountants</div>
+        <div class="edu-year">Applied Skills Level · In Progress</div>
+      </div>
+    </div>
+    <div class="edu-nav">
+      <button onclick="document.getElementById('eduS').scrollBy({left:-280,behavior:'smooth'})">←</button>
+      <button onclick="document.getElementById('eduS').scrollBy({left:280,behavior:'smooth'})">→</button>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section class="reveal">
+    <h2 class="sec-h">Other things</h2>
+    <div class="sec-sub">The non-CV stuff</div>
+
+    <div class="other">
+      I play piano and organ, both still very much a work in progress. I suspect they always will be — there's something satisfying about an instrument that never runs out of things to teach you. A lifelong journey<span class="d">·</span>I fine-tune LLMs for fun (LoRA on Qwen2.5, SFT, vLLM inference optimisation)<span class="d">·</span>I've been to Prague and Turin for academic conferences, which are objectively the two best cities for walking around aimlessly<span class="d">·</span>P.S. — this page contains a hidden <span class="ee">easter</span> <span class="ee">egg</span> <span class="ee">🦋</span> and if you find it, let me know!
+    </div>
+  </section>
+
+  <footer>
+    <div class="fl">
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#">Google Scholar</a>
+      <a href="#">Email</a>
+    </div>
+    <p>© 2026 Tony Ndungu Munene · Nairobi, Kenya</p>
+    <div class="mw">built with curiosity and too much coffee ☕</div>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Custom cursor
+const cur=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button,.ee,.gd,.pres-item,.edu-c,.exp,.pub,.comp-block,.vstack span').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('hover'));
+});
+
+// Scroll progress
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('scrollProg').style.width=(s/h*100)+'%';
+});
+
+// Particles
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<40;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    const s=Math.random()*2.5+1;
+    p.style.width=s+'px';p.style.height=s+'px';
+    p.style.opacity=Math.random()*0.12+0.03;
+    p.style.animationDuration=(Math.random()*28+16)+'s';
+    p.style.animationDelay=(Math.random()*20)+'s';
+    c.appendChild(p);
+  }
+})();
+
+// Theme toggle
+function toggleTheme(){
+  const h=document.documentElement;
+  h.dataset.theme=h.dataset.theme==='light'?'default':'light';
+}
+
+// Animated counters
+const countered=new Set();
+function animateCounters(){
+  document.querySelectorAll('.stat-n[data-target]').forEach(el=>{
+    if(countered.has(el))return;
+    const rect=el.getBoundingClientRect();
+    if(rect.top>window.innerHeight)return;
+    countered.add(el);
+    const target=parseInt(el.dataset.target);
+    const suffix=el.dataset.suffix||'';
+    const prefix=el.dataset.prefix||'';
+    let current=0;
+    const step=Math.max(1,Math.floor(target/40));
+    const interval=setInterval(()=>{
+      current+=step;
+      if(current>=target){current=target;clearInterval(interval)}
+      el.textContent=prefix+current+suffix;
+    },30);
+  });
+}
+window.addEventListener('scroll',animateCounters);
+animateCounters();
+
+// Reveal
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.05});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Easter egg
+let ec=0;
+document.querySelectorAll('.ee').forEach(el=>{
+  el.addEventListener('click',()=>{
+    ec++;
+    const t=document.getElementById('toast');
+    t.textContent=ec===1?'🦋 You found the easter egg!':'🦋 '+ec+' clicks!';
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2800);
+  });
+});
+
+// Graph dots
+document.querySelectorAll('.gd').forEach(d=>{
+  const r=d.getAttribute('r');
+  d.addEventListener('mouseenter',()=>{d.setAttribute('r',parseFloat(r)+3)});
+  d.addEventListener('mouseleave',()=>{d.setAttribute('r',r)});
+});
+</script>
+
+</body>
+</html>
